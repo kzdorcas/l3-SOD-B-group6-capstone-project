@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bunz — Fast Food Restaurant, Kigali Rwanda</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Josefin+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #ff6a00;
+    --gold-dark: #d45500;
+    --gold-light: #ff8c35;
+    --dark: #0d0d0d;
+    --dark2: #161616;
+    --dark3: #1e1e1e;
+    --dark4: #272727;
+    --text: #f0f0f0;
+    --text-muted: #b0b0b0;
+    --white: #ffffff;
+    --nav-h: 80px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Josefin Sans', sans-serif;
+    background: var(--dark);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    height: var(--nav-h);
+    background: rgba(26,26,26,0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(245,166,35,0.15);
+    display: flex; align-items: center;
+    padding: 0 5%;
+  }
+
+  .logo {
+    font-family: 'Dancing Script', cursive;
+    font-size: 3rem;
+    color: var(--white);
+    text-decoration: none;
+    margin-right: auto;
+    letter-spacing: 0.02em;
+    text-shadow: 0 0 30px rgba(255,106,0,0.5);
+  }
+
+  .nav-links {
+    display: flex; gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    text-decoration: none;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+    cursor: pointer;
+  }
+
+  .nav-links a.active, .nav-links a:hover { color: var(--gold); }
+
+  .nav-icons {
+    display: flex; align-items: center; gap: 1.2rem;
+    margin: 0 1.5rem;
+    font-size: 1.1rem;
+    color: var(--text-muted);
+  }
+
+  .nav-icons span { cursor: pointer; transition: color 0.2s; }
+  .nav-icons span:hover { color: var(--gold); }
+
+  .btn-order {
+    background: var(--gold);
+    color: var(--dark);
+    border: none;
+    padding: 0.6rem 1.6rem;
+    border-radius: 50px;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+  }
+
+  .btn-order:hover { background: var(--gold-light); transform: scale(1.03); }
+
+  .burger-menu {
+    display: none;
+    flex-direction: column; gap: 5px;
+    cursor: pointer; background: none; border: none;
+    padding: 4px;
+  }
+
+  .burger-menu span {
+    display: block; width: 24px; height: 2px;
+    background: var(--text); border-radius: 2px;
+    transition: 0.3s;
+  }
+
+  /* ── PAGES ── */
+  .page { display: none; padding-top: var(--nav-h); }
+  .page.active { display: block; }
+
+  /* ── HOME / HERO ── */
+  .hero {
+    position: relative; min-height: calc(100vh - var(--nav-h));
+    display: flex; align-items: center;
+    overflow: hidden;
+  }
+
+  /* Real Bunz restaurant interior background */
+  .hero-bg-img {
+    position: absolute; inset: 0; z-index: 0;
+    background-image: url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1600&q=80&auto=format');
+    background-size: cover;
+    background-position: center 30%;
+    filter: brightness(0.38) saturate(0.7);
+  }
+
+  /* Dark gradient overlay so text stays readable */
+  .hero-overlay {
+    position: absolute; inset: 0; z-index: 1;
+    background: linear-gradient(
+      to right,
+      rgba(0,0,0,0.82) 0%,
+      rgba(0,0,0,0.55) 45%,
+      rgba(0,0,0,0.15) 100%
+    );
+  }
+
+  .hero-content {
+    position: relative; z-index: 2;
+    padding: 4rem 5%;
+    max-width: 520px;
+  }
+
+  .hero-label {
+    font-size: 0.75rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--gold);
+    margin-bottom: 1rem;
+  }
+
+  .hero-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(3.2rem, 7vw, 5.2rem);
+    color: var(--white);
+    line-height: 1.1;
+    margin-bottom: 1.2rem;
+    text-shadow: 0 4px 30px rgba(0,0,0,0.6);
+  }
+
+  .hero-desc {
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: var(--text-muted);
+    margin-bottom: 2.5rem;
+    font-weight: 300;
+  }
+
+  .hero-actions { display: flex; gap: 1rem; align-items: center; }
+
+  .btn-primary {
+    background: var(--gold);
+    color: var(--dark);
+    border: none;
+    padding: 0.85rem 2.2rem;
+    border-radius: 50px;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.85rem; font-weight: 700;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .btn-primary:hover { background: var(--gold-light); transform: scale(1.04); }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--text);
+    border: 1.5px solid rgba(255,255,255,0.3);
+    padding: 0.85rem 2rem;
+    border-radius: 50px;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.85rem; font-weight: 600;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+
+  .hero-burger-wrap {
+    position: absolute; right: 4%; bottom: 0;
+    width: 44%; max-width: 500px;
+    z-index: 2;
+    animation: floatBurger 3.8s ease-in-out infinite;
+  }
+
+  .hero-food-img {
+    width: 100%;
+    height: 520px;
+    object-fit: cover;
+    object-position: center 60%;
+    border-radius: 24px 24px 0 0;
+    display: block;
+    filter: drop-shadow(-20px 0 60px rgba(255,106,0,0.25));
+  }
+
+  @keyframes floatBurger {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-12px); }
+  }
+
+  .hero-dots {
+    position: absolute; bottom: 2.5rem; left: 5%;
+    display: flex; gap: 8px; z-index: 2;
+  }
+
+  .dot {
+    width: 12px; height: 12px; border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    cursor: pointer; transition: background 0.2s, transform 0.2s;
+  }
+
+  .dot.active { background: var(--gold); transform: scale(1.2); }
+
+  /* ── FEATURES STRIP ── */
+  .features-strip {
+    background: var(--dark2);
+    padding: 3.5rem 5%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    border-top: 1px solid rgba(245,166,35,0.1);
+    border-bottom: 1px solid rgba(245,166,35,0.1);
+  }
+
+  .feature-item {
+    display: flex; align-items: center; gap: 1rem;
+  }
+
+  .feature-icon {
+    width: 52px; height: 52px; flex-shrink: 0;
+    background: rgba(245,166,35,0.12);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem;
+  }
+
+  .feature-text h4 {
+    font-size: 0.9rem; font-weight: 700; color: var(--white);
+    margin-bottom: 0.2rem; letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .feature-text p {
+    font-size: 0.78rem; color: var(--text-muted); font-weight: 300;
+  }
+
+  /* ── SECTION TITLES ── */
+  .section-header {
+    text-align: center; padding: 4rem 5% 2rem;
+  }
+
+  .section-tag {
+    font-size: 0.75rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--gold);
+    margin-bottom: 0.8rem;
+  }
+
+  .section-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--white);
+    margin-bottom: 0.8rem;
+  }
+
+  .section-sub {
+    font-size: 0.85rem; color: var(--text-muted);
+    max-width: 480px; margin: 0 auto;
+    line-height: 1.8; font-weight: 300;
+  }
+
+  /* ── MENU PAGE ── */
+  .menu-page { background: var(--dark); padding-bottom: 5rem; }
+
+  .menu-cats {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 0.8rem;
+    padding: 0 5% 2.5rem;
+  }
+
+  .cat-btn {
+    background: transparent;
+    border: 1.5px solid rgba(245,166,35,0.3);
+    color: var(--text-muted);
+    padding: 0.55rem 1.5rem;
+    border-radius: 50px;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.78rem; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    cursor: pointer; transition: all 0.2s;
+  }
+
+  .cat-btn.active, .cat-btn:hover {
+    background: var(--gold); color: var(--dark);
+    border-color: var(--gold);
+  }
+
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.8rem; padding: 0 5%;
+  }
+
+  .menu-card {
+    background: var(--dark2);
+    border-radius: 16px;
+    border: 1px solid rgba(245,166,35,0.08);
+    overflow: hidden;
+    transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+    cursor: pointer;
+  }
+
+  .menu-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(245,166,35,0.35);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  }
+
+  .menu-card-img-wrap {
+    width: 100%; height: 200px;
+    overflow: hidden; position: relative;
+    background: var(--dark3);
+  }
+
+  .menu-card-img-wrap img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+    display: block;
+  }
+
+  .menu-card:hover .menu-card-img-wrap img { transform: scale(1.06); }
+
+  .menu-card-img-fallback {
+    width: 100%; height: 200px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 4rem; background: var(--dark3);
+  }
+
+  .menu-card-body { padding: 1.2rem; }
+
+  .menu-card-body h3 {
+    font-size: 1rem; font-weight: 700; color: var(--white);
+    letter-spacing: 0.05em; margin-bottom: 0.4rem;
+  }
+
+  .menu-card-body p {
+    font-size: 0.78rem; color: var(--text-muted);
+    font-weight: 300; line-height: 1.6; margin-bottom: 1rem;
+  }
+
+  .menu-card-footer {
+    display: flex; justify-content: space-between; align-items: center;
+  }
+
+  .price {
+    font-size: 1.1rem; font-weight: 700; color: var(--gold);
+  }
+
+  .btn-add {
+    background: var(--gold); color: var(--dark);
+    border: none; width: 34px; height: 34px;
+    border-radius: 50%; cursor: pointer;
+    font-size: 1.3rem; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .btn-add:hover { background: var(--gold-light); transform: scale(1.1); }
+
+  /* ── ABOUT PAGE ── */
+  .about-page { background: var(--dark); padding-bottom: 5rem; }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem; align-items: center;
+    padding: 2rem 5% 4rem;
+  }
+
+  .about-img-wrap {
+    position: relative;
+  }
+
+  .about-img {
+    width: 100%; aspect-ratio: 4/3;
+    background: var(--dark3);
+    border-radius: 20px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 8rem;
+    border: 1px solid rgba(245,166,35,0.1);
+  }
+
+  .about-badge {
+    position: absolute; bottom: -1.5rem; right: -1.5rem;
+    background: var(--gold); color: var(--dark);
+    width: 100px; height: 100px; border-radius: 50%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    font-weight: 700; text-align: center;
+    font-size: 0.7rem; letter-spacing: 0.05em;
+    text-transform: uppercase;
+    box-shadow: 0 8px 24px rgba(245,166,35,0.4);
+  }
+
+  .about-badge strong { font-size: 1.6rem; display: block; }
+
+  .about-text h2 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.5rem; color: var(--white);
+    margin-bottom: 1.2rem;
+  }
+
+  .about-text p {
+    font-size: 0.88rem; color: var(--text-muted);
+    line-height: 1.9; font-weight: 300; margin-bottom: 1rem;
+  }
+
+  .stats-row {
+    display: flex; gap: 2.5rem; margin-top: 2rem;
+  }
+
+  .stat h3 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2rem; color: var(--gold); line-height: 1;
+  }
+
+  .stat p { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; }
+
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem; padding: 0 5%;
+  }
+
+  .team-card {
+    background: var(--dark2);
+    border-radius: 16px;
+    border: 1px solid rgba(245,166,35,0.08);
+    padding: 1.8rem;
+    text-align: center;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+
+  .team-card:hover { transform: translateY(-5px); border-color: rgba(245,166,35,0.3); }
+
+  .team-avatar {
+    width: 80px; height: 80px; border-radius: 50%;
+    background: var(--dark3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2.5rem; margin: 0 auto 1rem;
+    border: 2px solid rgba(245,166,35,0.3);
+  }
+
+  .team-card h4 { font-size: 0.95rem; font-weight: 700; color: var(--white); margin-bottom: 0.3rem; }
+  .team-card p { font-size: 0.75rem; color: var(--gold); text-transform: uppercase; letter-spacing: 0.1em; }
+
+  /* ── BOOK TABLE PAGE ── */
+  .book-page { background: var(--dark); padding-bottom: 5rem; }
+
+  .book-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem; padding: 2rem 5%;
+  }
+
+  .book-info h2 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.2rem; color: var(--white); margin-bottom: 1rem;
+  }
+
+  .book-info p {
+    font-size: 0.88rem; color: var(--text-muted);
+    line-height: 1.9; font-weight: 300; margin-bottom: 2rem;
+  }
+
+  .contact-item {
+    display: flex; align-items: center; gap: 1rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .contact-icon {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: rgba(245,166,35,0.12);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; flex-shrink: 0;
+  }
+
+  .contact-item span { font-size: 0.85rem; color: var(--text-muted); font-weight: 300; }
+
+  .booking-form {
+    background: var(--dark2);
+    border-radius: 20px;
+    padding: 2.5rem;
+    border: 1px solid rgba(245,166,35,0.1);
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem; margin-bottom: 1rem;
+  }
+
+  .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+
+  .form-group label {
+    font-size: 0.75rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--text-muted);
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    background: var(--dark3);
+    border: 1px solid rgba(245,166,35,0.15);
+    color: var(--text);
+    padding: 0.85rem 1rem;
+    border-radius: 10px;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.85rem;
+    transition: border-color 0.2s;
+    outline: none;
+    width: 100%;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--gold);
+  }
+
+  .form-group select option { background: var(--dark3); }
+
+  .form-group.full { margin-bottom: 1rem; }
+
+  .form-group textarea { resize: vertical; min-height: 90px; }
+
+  .btn-book {
+    width: 100%; background: var(--gold);
+    color: var(--dark); border: none;
+    padding: 1rem; border-radius: 10px;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.9rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    cursor: pointer; margin-top: 0.5rem;
+    transition: background 0.2s;
+  }
+
+  .btn-book:hover { background: var(--gold-light); }
+
+  /* ── CART SIDEBAR ── */
+  .cart-overlay {
+    display: none;
+    position: fixed; inset: 0; z-index: 1100;
+    background: rgba(0,0,0,0.6);
+  }
+
+  .cart-overlay.open { display: block; }
+
+  .cart-sidebar {
+    position: fixed; top: 0; right: -420px;
+    width: 380px; height: 100vh;
+    background: var(--dark2);
+    z-index: 1200;
+    transition: right 0.3s ease;
+    display: flex; flex-direction: column;
+    border-left: 1px solid rgba(245,166,35,0.15);
+    overflow-y: auto;
+  }
+
+  .cart-sidebar.open { right: 0; }
+
+  .cart-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(245,166,35,0.12);
+  }
+
+  .cart-header h3 { font-size: 1rem; font-weight: 700; color: var(--white); }
+
+  .cart-close {
+    background: none; border: none;
+    color: var(--text-muted); font-size: 1.5rem;
+    cursor: pointer; transition: color 0.2s;
+  }
+
+  .cart-close:hover { color: var(--gold); }
+
+  .cart-items { flex: 1; padding: 1.5rem; }
+
+  .cart-item {
+    display: flex; gap: 1rem; align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .cart-item-emoji { font-size: 2rem; }
+
+  .cart-item-info { flex: 1; }
+  .cart-item-info h4 { font-size: 0.85rem; font-weight: 600; color: var(--white); }
+  .cart-item-info span { font-size: 0.78rem; color: var(--gold); }
+
+  .cart-item-qty {
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+
+  .qty-btn {
+    background: rgba(245,166,35,0.15); border: none;
+    color: var(--gold); width: 26px; height: 26px;
+    border-radius: 50%; cursor: pointer; font-size: 1rem;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+  }
+
+  .qty-btn:hover { background: var(--gold); color: var(--dark); }
+  .qty-num { font-size: 0.9rem; font-weight: 600; min-width: 16px; text-align: center; }
+
+  .cart-footer { padding: 1.5rem; border-top: 1px solid rgba(245,166,35,0.12); }
+
+  .cart-total {
+    display: flex; justify-content: space-between;
+    font-size: 1rem; font-weight: 700; color: var(--white);
+    margin-bottom: 1.2rem;
+  }
+
+  .cart-total span:last-child { color: var(--gold); }
+
+  .cart-empty { text-align: center; color: var(--text-muted); padding: 3rem 0; font-size: 0.9rem; }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed; bottom: 2rem; left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--gold); color: var(--dark);
+    padding: 0.8rem 2rem; border-radius: 50px;
+    font-size: 0.85rem; font-weight: 700;
+    z-index: 2000; transition: transform 0.3s;
+    pointer-events: none;
+  }
+
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* ── CART BADGE ── */
+  .cart-wrap { position: relative; }
+
+  .cart-badge {
+    position: absolute; top: -6px; right: -8px;
+    background: var(--gold); color: var(--dark);
+    font-size: 0.6rem; font-weight: 700;
+    width: 16px; height: 16px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    display: none;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--dark2);
+    border-top: 1px solid rgba(245,166,35,0.1);
+    padding: 3rem 5%;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 2rem;
+  }
+
+  .footer-brand .logo { font-size: 2.4rem; display: inline-block; margin-bottom: 1rem; }
+  .footer-brand p { font-size: 0.8rem; color: var(--text-muted); line-height: 1.8; font-weight: 300; max-width: 240px; }
+
+  .footer-col h4 {
+    font-size: 0.75rem; text-transform: uppercase;
+    letter-spacing: 0.12em; color: var(--white);
+    margin-bottom: 1rem; font-weight: 700;
+  }
+
+  .footer-col ul { list-style: none; }
+  .footer-col li { margin-bottom: 0.6rem; }
+
+  .footer-col a {
+    text-decoration: none; color: var(--text-muted);
+    font-size: 0.82rem; font-weight: 300;
+    transition: color 0.2s; cursor: pointer;
+  }
+
+  .footer-col a:hover { color: var(--gold); }
+
+  .footer-bottom {
+    background: var(--dark2);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding: 1.2rem 5%;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.75rem; color: var(--text-muted);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 860px) {
+    .nav-links, .nav-icons { display: none; }
+    .burger-menu { display: flex; margin-left: auto; margin-right: 1rem; }
+    .hero-img { width: 70%; right: -10%; opacity: 0.5; }
+    .about-grid, .book-grid { grid-template-columns: 1fr; }
+    .about-badge { right: 0; }
+    footer { grid-template-columns: 1fr 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .cart-sidebar { width: 100%; right: -100%; }
+  }
+
+  @media (max-width: 520px) {
+    footer { grid-template-columns: 1fr; }
+    .stats-row { gap: 1.5rem; }
+  }
+
+  /* ── MOBILE NAV MENU ── */
+  .mobile-nav {
+    display: none;
+    position: fixed; top: var(--nav-h); left: 0; right: 0;
+    background: rgba(26,26,26,0.98);
+    padding: 1.5rem 5%;
+    z-index: 999;
+    border-bottom: 1px solid rgba(245,166,35,0.15);
+  }
+
+  .mobile-nav.open { display: block; }
+  .mobile-nav a {
+    display: block; padding: 0.8rem 0;
+    color: var(--text-muted); text-decoration: none;
+    font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    cursor: pointer;
+  }
+
+  .mobile-nav a:hover { color: var(--gold); }
+
+  /* ── GALLERY ── */
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .gallery-item {
+    aspect-ratio: 1/1; overflow: hidden;
+    border-radius: 12px;
+    border: 1px solid rgba(255,106,0,0.12);
+  }
+
+  .gallery-item img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+    display: block;
+  }
+
+  .gallery-item:hover img { transform: scale(1.08); }
+
+  @media (max-width: 600px) {
+    .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* ── FADE-IN ANIMATION ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .page.active .hero-content,
+  .page.active .section-header,
+  .page.active .about-text,
+  .page.active .booking-form {
+    animation: fadeUp 0.5s ease both;
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="logo" href="#">Bunz</a>
+  <ul class="nav-links">
+    <li><a class="active" onclick="showPage('home')">Home</a></li>
+    <li><a onclick="showPage('menu')">Menu</a></li>
+    <li><a onclick="showPage('about')">About</a></li>
+    <li><a onclick="showPage('book')">Book Table</a></li>
+  </ul>
+  <div class="nav-icons">
+    <span title="Account">👤</span>
+    <span class="cart-wrap" onclick="toggleCart()" title="Cart">
+      🛒
+      <span class="cart-badge" id="cartBadge">0</span>
+    </span>
+    <span title="Search">🔍</span>
+  </div>
+  <button class="btn-order" onclick="showPage('menu')">Order Online</button>
+  <button class="burger-menu" onclick="toggleMobileNav()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobileNav">
+  <a onclick="showPage('home'); toggleMobileNav()">Home</a>
+  <a onclick="showPage('menu'); toggleMobileNav()">Menu</a>
+  <a onclick="showPage('about'); toggleMobileNav()">About</a>
+  <a onclick="showPage('book'); toggleMobileNav()">Book Table</a>
+</div>
+
+<!-- ══ HOME PAGE ══ -->
+<div class="page active" id="page-home">
+  <!-- HERO -->
+  <section class="hero">
+    <!-- Background: Bunz restaurant interior vibe -->
+    <div class="hero-bg-img"></div>
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+      <p class="hero-label">Welcome to Bunz — Kigali</p>
+      <h1 class="hero-title">Best Burgers<br>in Kigali</h1>
+      <p class="hero-desc">Fresh and tasty — that's the Bunz promise. From loaded salad bowls to juicy subs and refreshing mojitos, find us at KBC Building, Kicukiro, Kigali.</p>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="showPage('menu')">Order Now</button>
+        <button class="btn-secondary" onclick="showPage('book')">Book a Table</button>
+      </div>
+    </div>
+
+    <!-- Real sandwich / sub photo -->
+    <div class="hero-burger-wrap">
+      <img
+        class="hero-food-img"
+        src="https://images.unsplash.com/photo-1509722747041-616f39b57569?w=700&q=85&auto=format"
+        alt="Bunz signature sandwich"
+        onerror="this.src='https://images.unsplash.com/photo-1553909489-cd47e0907980?w=700&q=85'"
+      >
+    </div>
+
+    <div class="hero-dots">
+      <div class="dot active"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <div class="features-strip">
+    <div class="feature-item">
+      <div class="feature-icon">⚡</div>
+      <div class="feature-text">
+        <h4>Fast Delivery</h4>
+        <p>Delivered to your door in 30 min</p>
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🍔</div>
+      <div class="feature-text">
+        <h4>Fresh Ingredients</h4>
+        <p>Only the finest quality produce</p>
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🏆</div>
+      <div class="feature-text">
+        <h4>Award Winning</h4>
+        <p>Best restaurant award 2024</p>
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">💳</div>
+      <div class="feature-text">
+        <h4>Easy Payment</h4>
+        <p>Multiple secure payment options</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- POPULAR ITEMS PREVIEW -->
+  <div class="section-header">
+    <p class="section-tag">Customer Favourites</p>
+    <h2 class="section-title">Most Popular Items</h2>
+    <p class="section-sub">Our most loved dishes — fresh salad bowls, loaded subs, juicy burgers & mason jar drinks, all made fresh daily.</p>
+  </div>
+
+  <div class="menu-grid" style="padding-bottom: 4rem;" id="homeMenuGrid"></div>
+
+  <!-- FOOTER INSIDE HOME -->
+  <footer>
+    <div class="footer-brand">
+      <a class="logo">Bunz</a>
+      <p>Passionate about great food and even better experiences. Visit us today and taste the difference.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a onclick="showPage('home')">Home</a></li>
+        <li><a onclick="showPage('menu')">Menu</a></li>
+        <li><a onclick="showPage('about')">About</a></li>
+        <li><a onclick="showPage('book')">Book Table</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Hours</h4>
+      <ul>
+        <li><a>Mon–Fri: 11am–10pm</a></li>
+        <li><a>Saturday: 10am–11pm</a></li>
+        <li><a>Sunday: 12pm–9pm</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a>📍 KBC Building, Kicukiro</a></li>
+        <li><a>📞 +250 788 000 000</a></li>
+        <li><a>✉️ hello@bunz.rw</a></li>
+      </ul>
+    </div>
+  </footer>
+  <div class="footer-bottom">
+    <span>© 2025 Bunz Restaurant. All rights reserved.</span>
+    <span>Made with ❤️ for food lovers</span>
+  </div>
+</div>
+
+<!-- ══ MENU PAGE ══ -->
+<div class="page" id="page-menu">
+  <div class="section-header">
+    <p class="section-tag">What We Offer</p>
+    <h2 class="section-title">Our Menu</h2>
+    <p class="section-sub">Fresh salad bowls, loaded sandwiches, juicy burgers, refreshing mojitos & iced coffee — all made fresh at KBC, Kicukiro.</p>
+  </div>
+
+  <div class="menu-cats">
+    <button class="cat-btn active" onclick="filterMenu('all', this)">All</button>
+    <button class="cat-btn" onclick="filterMenu('bowls', this)">Salad Bowls</button>
+    <button class="cat-btn" onclick="filterMenu('sandwiches', this)">Sandwiches</button>
+    <button class="cat-btn" onclick="filterMenu('burgers', this)">Burgers</button>
+    <button class="cat-btn" onclick="filterMenu('drinks', this)">Drinks</button>
+    <button class="cat-btn" onclick="filterMenu('coffee', this)">Coffee</button>
+  </div>
+
+  <div class="menu-grid" id="menuGrid"></div>
+
+  <footer style="margin-top: 4rem;">
+    <div class="footer-brand">
+      <a class="logo">Bunz</a>
+      <p>Passionate about great food and even better experiences.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a onclick="showPage('home')">Home</a></li>
+        <li><a onclick="showPage('about')">About</a></li>
+        <li><a onclick="showPage('book')">Book Table</a></li>
+      </ul>
+    </div>
+    <div class="footer-col"><h4>Hours</h4><ul><li><a>Mon–Fri: 11am–10pm</a></li><li><a>Sat: 10am–11pm</a></li><li><a>Sun: 12pm–9pm</a></li></ul></div>
+    <div class="footer-col"><h4>Contact</h4><ul><li><a>📍 KBC Building, Kicukiro</a></li><li><a>📞 +250 788 000 000</a></li></ul></div>
+  </footer>
+  <div class="footer-bottom"><span>© 2025 Bunz Restaurant.</span><span>Made with ❤️</span></div>
+</div>
+
+<!-- ══ ABOUT PAGE ══ -->
+<div class="page" id="page-about">
+  <div class="section-header">
+    <p class="section-tag">Our Story</p>
+    <h2 class="section-title">About Bunz</h2>
+    <p class="section-sub">Fresh, tasty and made with love — right here in Kigali, Rwanda.</p>
+  </div>
+
+  <div class="about-grid">
+    <div class="about-img-wrap">
+      <div class="about-img" style="overflow:hidden;padding:0;">
+        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=700&q=80" alt="Bunz food bowl" style="width:100%;height:100%;object-fit:cover;border-radius:20px;">
+      </div>
+      <div class="about-badge"><strong>🔥</strong>Fresh &amp; Tasty</div>
+    </div>
+    <div class="about-text">
+      <h2>We Are Bunz</h2>
+      <p>Bunz is Kigali's go-to spot for fresh, flavour-packed food. Located at the KBC Building in Kicukiro, we've been serving the Kigali community with honest, delicious food made from scratch every day.</p>
+      <p>From our signature salad bowls topped with boiled eggs, grapes and cashews, to our loaded subs and refreshing mason jar mojitos — every item on our menu is crafted with care. Our motto? <strong style="color:var(--gold)">Fresh &amp; Tasty.</strong></p>
+      <p>We partner with local suppliers to keep ingredients fresh, and our team makes sure every order leaves the kitchen looking and tasting amazing.</p>
+      <div class="stats-row">
+        <div class="stat"><h3>3+</h3><p>Years in Kigali</p></div>
+        <div class="stat"><h3>10K+</h3><p>Happy Customers</p></div>
+        <div class="stat"><h3>100%</h3><p>Fresh Ingredients</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHOTO GALLERY -->
+  <div class="section-header" style="padding-top: 2rem;">
+    <p class="section-tag">From Our Kitchen</p>
+    <h2 class="section-title">See the Food</h2>
+  </div>
+
+  <div class="gallery-grid" style="padding: 0 5% 4rem;">
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=500&q=80" alt="Salad bowl"></div>
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&q=80" alt="Protein bowl"></div>
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&q=80" alt="Burger"></div>
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&q=80" alt="Mojito"></div>
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1509722747041-616f39b57569?w=500&q=80" alt="Sub sandwich"></div>
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=500&q=80" alt="Iced coffee"></div>
+  </div>
+
+  <footer>
+    <div class="footer-brand"><a class="logo">Bunz</a><p>Passionate about great food and even better experiences.</p></div>
+    <div class="footer-col"><h4>Quick Links</h4><ul><li><a onclick="showPage('home')">Home</a></li><li><a onclick="showPage('menu')">Menu</a></li><li><a onclick="showPage('book')">Book Table</a></li></ul></div>
+    <div class="footer-col"><h4>Hours</h4><ul><li><a>Mon–Fri: 11am–10pm</a></li><li><a>Sat: 10am–11pm</a></li></ul></div>
+    <div class="footer-col"><h4>Contact</h4><ul><li><a>📍 KBC Building, Kicukiro</a></li><li><a>📞 +250 788 000 000</a></li></ul></div>
+  </footer>
+  <div class="footer-bottom"><span>© 2025 Bunz Restaurant.</span><span>Made with ❤️</span></div>
+</div>
+
+<!-- ══ BOOK TABLE PAGE ══ -->
+<div class="page" id="page-book">
+  <div class="section-header">
+    <p class="section-tag">Reservations</p>
+    <h2 class="section-title">Book a Table</h2>
+    <p class="section-sub">Reserve your spot for a perfect dining experience. We'll have everything ready for you.</p>
+  </div>
+
+  <div class="book-grid">
+    <div class="book-info">
+      <h2>We'd Love to Have You</h2>
+      <p>Whether it's a casual lunch, a birthday celebration, or a business dinner — Bunz is the perfect setting. Our team will ensure your visit is memorable from the first bite to the last.</p>
+      <div class="contact-item">
+        <div class="contact-icon">📍</div>
+        <span>KBC Building, Kicukiro, Kigali, Rwanda</span>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">📞</div>
+        <span>+250 788 000 000</span>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">⏰</div>
+        <span>Mon–Fri: 11:00 AM – 10:00 PM<br>Weekends: 10:00 AM – 11:00 PM</span>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">✉️</div>
+        <span>reservations@bunz.rw</span>
+      </div>
+    </div>
+
+    <form class="booking-form" onsubmit="submitBooking(event)">
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" placeholder="John" required>
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" placeholder="Doe" required>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" placeholder="john@email.com" required>
+        </div>
+        <div class="form-group">
+          <label>Phone</label>
+          <input type="tel" placeholder="+250 788 000 000">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Date</label>
+          <input type="date" required>
+        </div>
+        <div class="form-group">
+          <label>Time</label>
+          <input type="time" required>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Guests</label>
+          <select>
+            <option>1 Guest</option>
+            <option selected>2 Guests</option>
+            <option>3 Guests</option>
+            <option>4 Guests</option>
+            <option>5+ Guests</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Occasion</label>
+          <select>
+            <option>No Special Occasion</option>
+            <option>Birthday</option>
+            <option>Anniversary</option>
+            <option>Business Dinner</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group full">
+        <label>Special Requests</label>
+        <textarea placeholder="Any dietary restrictions or special requests..."></textarea>
+      </div>
+      <button type="submit" class="btn-book">Confirm Reservation</button>
+    </form>
+  </div>
+
+  <footer style="margin-top: 2rem;">
+    <div class="footer-brand"><a class="logo">Bunz</a><p>Passionate about great food and even better experiences.</p></div>
+    <div class="footer-col"><h4>Quick Links</h4><ul><li><a onclick="showPage('home')">Home</a></li><li><a onclick="showPage('menu')">Menu</a></li><li><a onclick="showPage('about')">About</a></li></ul></div>
+    <div class="footer-col"><h4>Hours</h4><ul><li><a>Mon–Fri: 11am–10pm</a></li><li><a>Sat: 10am–11pm</a></li></ul></div>
+    <div class="footer-col"><h4>Contact</h4><ul><li><a>📍 KBC Building, Kicukiro</a></li><li><a>📞 +250 788 000 000</a></li></ul></div>
+  </footer>
+  <div class="footer-bottom"><span>© 2025 Bunz Restaurant.</span><span>Made with ❤️</span></div>
+</div>
+
+<!-- CART OVERLAY + SIDEBAR -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-header">
+    <h3>🛒 Your Order</h3>
+    <button class="cart-close" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <p class="cart-empty">Your cart is empty.<br>Add some items to get started!</p>
+  </div>
+  <div class="cart-footer" id="cartFooter" style="display:none;">
+    <div class="cart-total">
+      <span>Total</span>
+      <span id="cartTotal">$0.00</span>
+    </div>
+    <button class="btn-book" onclick="checkout()">Proceed to Checkout</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">Added to cart!</div>
+
+<script>
+const MENU = [
+  // SALAD BOWLS
+  { id:1, name:'Classic Bunz Bowl', desc:'Fresh greens, boiled egg, grapes, cashews, carrots & house dressing', price:6500, cat:'bowls', img:'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=500&q=80', popular:true },
+  { id:2, name:'Beef Strips Bowl', desc:'Juicy beef strips over fresh salad, boiled egg, tomatoes & vinaigrette', price:8500, cat:'bowls', img:'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&q=80', popular:true },
+  { id:3, name:'Crouton Garden Bowl', desc:'Crispy croutons, mixed greens, boiled egg, grapes & yogurt dressing', price:7000, cat:'bowls', img:'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=500&q=80', popular:false },
+  { id:4, name:'Protein Power Bowl', desc:'Double egg, beef, avocado, greens, nuts & lemon dressing', price:9500, cat:'bowls', img:'https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=500&q=80', popular:true },
+  // SANDWICHES
+  { id:5, name:'The Bunz Sub', desc:'Toasted sub roll, beef strips, melted cheddar, jalapeños & special sauce', price:7500, cat:'sandwiches', img:'https://images.unsplash.com/photo-1509722747041-616f39b57569?w=500&q=80', popular:true },
+  { id:6, name:'Ham & Cheese Melt', desc:'Sliced ham, cheddar, mustard on freshly baked sub bread', price:6500, cat:'sandwiches', img:'https://images.unsplash.com/photo-1553909489-cd47e0907980?w=500&q=80', popular:false },
+  { id:7, name:'Beef & Cheddar Sub', desc:'Tender beef, shredded cheddar, red onion, pickles, toasted bun', price:8000, cat:'sandwiches', img:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=500&q=80', popular:true },
+  // BURGERS
+  { id:8, name:'Classic Smash Burger', desc:'Double smash patty, cheddar, lettuce, tomato & special Bunz sauce', price:8500, cat:'burgers', img:'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&q=80', popular:true },
+  { id:9, name:'Spicy Bunz Burger', desc:'Beef patty, pepper jack, jalapeños, sriracha mayo & crispy onions', price:9000, cat:'burgers', img:'https://images.unsplash.com/photo-1550547660-d9450f859349?w=500&q=80', popular:true },
+  { id:10, name:'BBQ Bacon Burger', desc:'Smoky BBQ sauce, crispy bacon, caramelised onions & cheddar', price:10000, cat:'burgers', img:'https://images.unsplash.com/photo-1586816001966-79b736744398?w=500&q=80', popular:false },
+  // DRINKS
+  { id:11, name:'Bunz Mojito', desc:'Refreshing house mojito in a mason jar — our signature drink', price:3500, cat:'drinks', img:'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&q=80', popular:true },
+  { id:12, name:'Fresh Orange Juice', desc:'Cold-pressed oranges, served in our iconic mason jar with straw', price:2500, cat:'drinks', img:'https://images.unsplash.com/photo-1534353341086-90f33be6f80e?w=500&q=80', popular:true },
+  { id:13, name:'Passion Fruit Juice', desc:'Tropical fresh passion fruit, chilled & served in a mason jar', price:2500, cat:'drinks', img:'https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=500&q=80', popular:false },
+  // COFFEE
+  { id:14, name:'Bunz Iced Coffee', desc:'Signature iced coffee with swirled caramel in a mason jar', price:3000, cat:'coffee', img:'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=500&q=80', popular:true },
+  { id:15, name:'Caramel Latte', desc:'Smooth espresso, steamed milk & house caramel drizzle', price:2800, cat:'coffee', img:'https://images.unsplash.com/photo-1485808191679-5f86510bd652?w=500&q=80', popular:false },
+];
+
+let cart = {};
+let currentFilter = 'all';
+
+function renderMenuGrid(items, targetId) {
+  const grid = document.getElementById(targetId);
+  if (!grid) return;
+  grid.innerHTML = items.map(item => `
+    <div class="menu-card">
+      <div class="menu-card-img-wrap">
+        <img src="${item.img}" alt="${item.name}" loading="lazy"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="menu-card-img-fallback" style="display:none">🍽️</div>
+      </div>
+      <div class="menu-card-body">
+        <h3>${item.name}</h3>
+        <p>${item.desc}</p>
+        <div class="menu-card-footer">
+          <span class="price">FRW ${item.price.toLocaleString()}</span>
+          <button class="btn-add" onclick="addToCart(${item.id})" title="Add to cart">+</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterMenu(cat, btn) {
+  currentFilter = cat;
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const filtered = cat === 'all' ? MENU : MENU.filter(i => i.cat === cat);
+  renderMenuGrid(filtered, 'menuGrid');
+}
+
+function addToCart(id) {
+  cart[id] = (cart[id] || 0) + 1;
+  updateCart();
+  showToast('Added to cart! 🎉');
+}
+
+function changeQty(id, delta) {
+  cart[id] = (cart[id] || 0) + delta;
+  if (cart[id] <= 0) delete cart[id];
+  updateCart();
+}
+
+function updateCart() {
+  const total = Object.entries(cart).reduce((sum, [id, qty]) => {
+    const item = MENU.find(i => i.id == id);
+    return sum + (item ? item.price * qty : 0);
+  }, 0);
+
+  const count = Object.values(cart).reduce((a, b) => a + b, 0);
+  const badge = document.getElementById('cartBadge');
+  badge.style.display = count > 0 ? 'flex' : 'none';
+  badge.textContent = count;
+
+  const itemsEl = document.getElementById('cartItems');
+  const footerEl = document.getElementById('cartFooter');
+
+  if (count === 0) {
+    itemsEl.innerHTML = '<p class="cart-empty">Your cart is empty.<br>Add some items to get started!</p>';
+    footerEl.style.display = 'none';
+    return;
+  }
+
+  footerEl.style.display = 'block';
+  document.getElementById('cartTotal').textContent = 'FRW ' + total.toLocaleString();
+
+  itemsEl.innerHTML = Object.entries(cart).map(([id, qty]) => {
+    const item = MENU.find(i => i.id == id);
+    if (!item) return '';
+    return `
+      <div class="cart-item">
+        <span class="cart-item-emoji">${item.emoji}</span>
+        <div class="cart-item-info">
+          <h4>${item.name}</h4>
+          <span>FRW ${(item.price * qty).toLocaleString()}</span>
+        </div>
+        <div class="cart-item-qty">
+          <button class="qty-btn" onclick="changeQty(${id}, -1)">−</button>
+          <span class="qty-num">${qty}</span>
+          <button class="qty-btn" onclick="changeQty(${id}, 1)">+</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function toggleCart() {
+  const overlay = document.getElementById('cartOverlay');
+  const sidebar = document.getElementById('cartSidebar');
+  overlay.classList.toggle('open');
+  sidebar.classList.toggle('open');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+function checkout() {
+  cart = {};
+  updateCart();
+  toggleCart();
+  showToast('Order placed! Thank you 🎉');
+}
+
+function submitBooking(e) {
+  e.preventDefault();
+  showToast('Reservation confirmed! See you soon 🍽️');
+  e.target.reset();
+}
+
+function showPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  const map = { home: 0, menu: 1, about: 2, book: 3 };
+  const links = document.querySelectorAll('.nav-links a');
+  if (links[map[page]]) links[map[page]].classList.add('active');
+  window.scrollTo(0, 0);
+
+  if (page === 'menu') renderMenuGrid(MENU, 'menuGrid');
+}
+
+function toggleMobileNav() {
+  document.getElementById('mobileNav').classList.toggle('open');
+}
+
+// Init
+renderMenuGrid(MENU.filter(i => i.popular), 'homeMenuGrid');
+renderMenuGrid(MENU, 'menuGrid');
+</script>
+</body>
+</html>
