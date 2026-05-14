@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bunz — Fast Food Restaurant, Kigali Rwanda</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Josefin+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="StyleSheet" href="Bunz.css">
+
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="logo" href="#">Bunz</a>
+  <ul class="nav-links">
+    <li><a class="active" onclick="showPage('home')">Home</a></li>
+    <li><a onclick="showPage('menu')">Menu</a></li>
+    <li><a onclick="showPage('about')">About</a></li>
+    <li><a onclick="showPage('book')">Book Table</a></li>
+  </ul>
+  <div class="nav-icons">
+    <span title="Account">👤</span>
+    <span class="cart-wrap" onclick="toggleCart()" title="Cart">
+      🛒
+      <span class="cart-badge" id="cartBadge">0</span>
+    </span>
+    <span title="Search">🔍</span>
+  </div>
+  <button class="btn-order" onclick="showPage('menu')">Order Online</button>
+  <button class="burger-menu" onclick="toggleMobileNav()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobileNav">
+  <a onclick="showPage('home'); toggleMobileNav()">Home</a>
+  <a onclick="showPage('menu'); toggleMobileNav()">Menu</a>
+  <a onclick="showPage('about'); toggleMobileNav()">About</a>
+  <a onclick="showPage('book'); toggleMobileNav()">Book Table</a>
+</div>
+
+<!-- ══ HOME PAGE ══ -->
+<div class="page active" id="page-home">
+  <!-- HERO -->
+  <section class="hero">
+    <!-- Warm restaurant interior — Edison bulbs, wood, intimate dining vibe matching Bunz -->
+    <div class="hero-bg-img"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-glow"></div>
+
+    <div class="hero-content">
+      <p class="hero-label">Welcome to Bunz — Kigali</p>
+      <h1 class="hero-title">Best Burgers<br>in Kigali</h1>
+      <p class="hero-desc">Fresh and tasty — that's the Bunz promise. From loaded salad bowls to juicy subs and refreshing mojitos, find us at KBC Building, Kicukiro, Kigali.</p>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="showPage('menu')">Order Now</button>
+        <button class="btn-secondary" onclick="showPage('book')">Book a Table</button>
+      </div>
+    </div>
+
+    <!-- Food photo -->
+    <div class="hero-burger-wrap">
+      <img
+        class="hero-food-img"
+        src="https://images.unsplash.com/photo-1509722747041-616f39b57569?w=700&q=85&auto=format"
+        alt="Bunz signature sandwich"
+        onerror="this.src='https://images.unsplash.com/photo-1553909489-cd47e0907980?w=700&q=85'"
+      >
+    </div>
+
+    <div class="hero-dots">
+      <div class="dot active"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <div class="features-strip">
+    <div class="feature-item">
+      <div class="feature-icon">⚡</div>
+      <div class="feature-text">
+        <h4>Fast Delivery</h4>
+        <p>Delivered to your door in 30 min</p>
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🍔</div>
+      <div class="feature-text">
+        <h4>Fresh Ingredients</h4>
+        <p>Only the finest quality produce</p>
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🏆</div>
+      <div class="feature-text">
+        <h4>Award Winning</h4>
+        <p>Best restaurant award 2024</p>
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">💳</div>
+      <div class="feature-text">
+        <h4>Easy Payment</h4>
+        <p>Multiple secure payment options</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- POPULAR ITEMS PREVIEW -->
+  <div class="section-header">
+    <p class="section-tag">Customer Favourites</p>
+    <h2 class="section-title">Most Popular Items</h2>
+    <p class="section-sub">Our most loved dishes — fresh salad bowls, loaded subs, juicy burgers & mason jar drinks, all made fresh daily.</p>
+  </div>
+
+  <div class="menu-grid" style="padding-bottom: 4rem;" id="homeMenuGrid"></div>
+
+  <!-- FOOTER INSIDE HOME -->
+  <footer>
+    <div class="footer-brand">
+      <a class="logo">Bunz</a>
+      <p>Passionate about great food and even better experiences. Visit us today and taste the difference.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a onclick="showPage('home')">Home</a></li>
+        <li><a onclick="showPage('menu')">Menu</a></li>
+        <li><a onclick="showPage('about')">About</a></li>
+        <li><a onclick="showPage('book')">Book Table</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Hours</h4>
+      <ul>
+        <li><a>Mon–Fri: 11am–10pm</a></li>
+        <li><a>Saturday: 10am–11pm</a></li>
+        <li><a>Sunday: 12pm–9pm</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a>📍 KBC Building, Kicukiro</a></li>
+        <li><a>📞 +250 788 000 000</a></li>
+        <li><a>✉️ hello@bunz.rw</a></li>
+      </ul>
+    </div>
+  </footer>
+  <div class="footer-bottom">
+    <span>© 2025 Bunz Restaurant. All rights reserved.</span>
+    <span>Made with ❤️ for food lovers</span>
+  </div>
+</div>
+
+<!-- ══ MENU PAGE ══ -->
+<div class="page" id="page-menu">
+  <div class="section-header">
+    <p class="section-tag">What We Offer</p>
+    <h2 class="section-title">Our Menu</h2>
+    <p class="section-sub">Fresh salad bowls, loaded sandwiches, juicy burgers, refreshing mojitos & iced coffee — all made fresh at KBC, Kicukiro.</p>
+  </div>
+
+  <div class="menu-cats">
+    <button class="cat-btn active" onclick="filterMenu('all', this)">All</button>
+    <button class="cat-btn" onclick="filterMenu('bowls', this)">Salad Bowls</button>
+    <button class="cat-btn" onclick="filterMenu('sandwiches', this)">Sandwiches</button>
+    <button class="cat-btn" onclick="filterMenu('burgers', this)">Burgers</button>
+    <button class="cat-btn" onclick="filterMenu('drinks', this)">Drinks</button>
+    <button class="cat-btn" onclick="filterMenu('coffee', this)">Coffee</button>
+  </div>
+
+  <div class="menu-grid" id="menuGrid"></div>
+
+  <footer style="margin-top: 4rem;">
+    <div class="footer-brand">
+      <a class="logo">Bunz</a>
+      <p>Passionate about great food and even better experiences.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a onclick="showPage('home')">Home</a></li>
+        <li><a onclick="showPage('about')">About</a></li>
+        <li><a onclick="showPage('book')">Book Table</a></li>
+      </ul>
+    </div>
+    <div class="footer-col"><h4>Hours</h4><ul><li><a>Mon–Fri: 11am–10pm</a></li><li><a>Sat: 10am–11pm</a></li><li><a>Sun: 12pm–9pm</a></li></ul></div>
+    <div class="footer-col"><h4>Contact</h4><ul><li><a>📍 KBC Building, Kicukiro</a></li><li><a>📞 +250 788 000 000</a></li></ul></div>
+  </footer>
+  <div class="footer-bottom"><span>© 2025 Bunz Restaurant.</span><span>Made with ❤️</span></div>
+</div>
+
+<!-- ══ ABOUT PAGE ══ -->
+<div class="page" id="page-about">
+  <div class="section-header">
+    <p class="section-tag">Our Story</p>
+    <h2 class="section-title">About Bunz</h2>
+    <p class="section-sub">Fresh, tasty and made with love — right here in Kigali, Rwanda.</p>
+  </div>
+
+  <div class="about-grid">
+    <div class="about-img-wrap">
+      <div class="about-img" style="overflow:hidden;padding:0;">
+        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=700&q=80" alt="Bunz food bowl" style="width:100%;height:100%;object-fit:cover;border-radius:20px;">
+      </div>
+      <div class="about-badge"><strong>🔥</strong>Fresh &amp; Tasty</div>
+    </div>
+    <div class="about-text">
+      <h2>We Are Bunz</h2>
+      <p>Bunz is Kigali's go-to spot for fresh, flavour-packed food. Located at the KBC Building in Kicukiro, we've been serving the Kigali community with honest, delicious food made from scratch every day.</p>
+      <p>From our signature salad bowls topped with boiled eggs, grapes and cashews, to our loaded subs and refreshing mason jar mojitos — every item on our menu is crafted with care. Our motto? <strong style="color:var(--gold)">Fresh &amp; Tasty.</strong></p>
+      <p>We partner with local suppliers to keep ingredients fresh, and our team makes sure every order leaves the kitchen looking and tasting amazing.</p>
+      <div class="stats-row">
+        <div class="stat"><h3>3+</h3><p>Years in Kigali</p></div>
+        <div class="stat"><h3>10K+</h3><p>Happy Customers</p></div>
+        <div class="stat"><h3>100%</h3><p>Fresh Ingredients</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHOTO GALLERY -->
+  <div class="section-header" style="padding-top: 2rem;">
+    <p class="section-tag">From Our Kitchen</p>
+    <h2 class="section-title">See the Food</h2>
+  </div>
+
+  <div class="gallery-grid" style="padding: 0 5% 4rem;">
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=500&q=80" alt="Salad bowl"></div>
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&q=80" alt="Protein bowl"></div>
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&q=80" alt="Burger"></div>
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&q=80" alt="Mojito"></div>
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1509722747041-616f39b57569?w=500&q=80" alt="Sub sandwich"></div>
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=500&q=80" alt="Iced coffee"></div>
+  </div>
+
+  <footer>
+    <div class="footer-brand"><a class="logo">Bunz</a><p>Passionate about great food and even better experiences.</p></div>
+    <div class="footer-col"><h4>Quick Links</h4><ul><li><a onclick="showPage('home')">Home</a></li><li><a onclick="showPage('menu')">Menu</a></li><li><a onclick="showPage('book')">Book Table</a></li></ul></div>
+    <div class="footer-col"><h4>Hours</h4><ul><li><a>Mon–Fri: 11am–10pm</a></li><li><a>Sat: 10am–11pm</a></li></ul></div>
+    <div class="footer-col"><h4>Contact</h4><ul><li><a>📍 KBC Building, Kicukiro</a></li><li><a>📞 +250 788 000 000</a></li></ul></div>
+  </footer>
+  <div class="footer-bottom"><span>© 2025 Bunz Restaurant.</span><span>Made with ❤️</span></div>
+</div>
+
+<!-- ══ BOOK TABLE PAGE ══ -->
+<div class="page" id="page-book">
+  <div class="section-header">
+    <p class="section-tag">Reservations</p>
+    <h2 class="section-title">Book a Table</h2>
+    <p class="section-sub">Reserve your spot for a perfect dining experience. We'll have everything ready for you.</p>
+  </div>
+
+  <div class="book-grid">
+    <div class="book-info">
+      <h2>We'd Love to Have You</h2>
+      <p>Whether it's a casual lunch, a birthday celebration, or a business dinner — Bunz is the perfect setting. Our team will ensure your visit is memorable from the first bite to the last.</p>
+      <div class="contact-item">
+        <div class="contact-icon">📍</div>
+        <span>KBC Building, Kicukiro, Kigali, Rwanda</span>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">📞</div>
+        <span>+250 788 000 000</span>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">⏰</div>
+        <span>Mon–Fri: 11:00 AM – 10:00 PM<br>Weekends: 10:00 AM – 11:00 PM</span>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">✉️</div>
+        <span>reservations@bunz.rw</span>
+      </div>
+    </div>
+
+    <form class="booking-form" onsubmit="submitBooking(event)">
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" placeholder="John" required>
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" placeholder="Doe" required>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" placeholder="john@email.com" required>
+        </div>
+        <div class="form-group">
+          <label>Phone</label>
+          <input type="tel" placeholder="+250 788 000 000">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Date</label>
+          <input type="date" required>
+        </div>
+        <div class="form-group">
+          <label>Time</label>
+          <input type="time" required>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Guests</label>
+          <select>
+            <option>1 Guest</option>
+            <option selected>2 Guests</option>
+            <option>3 Guests</option>
+            <option>4 Guests</option>
+            <option>5+ Guests</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Occasion</label>
+          <select>
+            <option>No Special Occasion</option>
+            <option>Birthday</option>
+            <option>Anniversary</option>
+            <option>Business Dinner</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group full">
+        <label>Special Requests</label>
+        <textarea placeholder="Any dietary restrictions or special requests..."></textarea>
+      </div>
+      <button type="submit" class="btn-book">Confirm Reservation</button>
+    </form>
+  </div>
+
+  <footer style="margin-top: 2rem;">
+    <div class="footer-brand"><a class="logo">Bunz</a><p>Passionate about great food and even better experiences.</p></div>
+    <div class="footer-col"><h4>Quick Links</h4><ul><li><a onclick="showPage('home')">Home</a></li><li><a onclick="showPage('menu')">Menu</a></li><li><a onclick="showPage('about')">About</a></li></ul></div>
+    <div class="footer-col"><h4>Hours</h4><ul><li><a>Mon–Fri: 11am–10pm</a></li><li><a>Sat: 10am–11pm</a></li></ul></div>
+    <div class="footer-col"><h4>Contact</h4><ul><li><a>📍 KBC Building, Kicukiro</a></li><li><a>📞 +250 788 000 000</a></li></ul></div>
+  </footer>
+  <div class="footer-bottom"><span>© 2025 Bunz Restaurant.</span><span>Made with ❤️</span></div>
+</div>
+
+<!-- CART OVERLAY + SIDEBAR -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-header">
+    <h3>🛒 Your Order</h3>
+    <button class="cart-close" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <p class="cart-empty">Your cart is empty.<br>Add some items to get started!</p>
+  </div>
+  <div class="cart-footer" id="cartFooter" style="display:none;">
+    <div class="cart-total">
+      <span>Total</span>
+      <span id="cartTotal">$0.00</span>
+    </div>
+    <button class="btn-book" onclick="checkout()">Proceed to Checkout</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">Added to cart!</div>
+
+<script>
+const MENU = [
+  { id:1, name:'Classic Bunz Bowl', desc:'Fresh greens, boiled egg, grapes, cashews, carrots & house dressing', price:6500, cat:'bowls', img:'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=500&q=80', popular:true },
+  { id:2, name:'Beef Strips Bowl', desc:'Juicy beef strips over fresh salad, boiled egg, tomatoes & vinaigrette', price:8500, cat:'bowls', img:'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&q=80', popular:true },
+  { id:3, name:'Crouton Garden Bowl', desc:'Crispy croutons, mixed greens, boiled egg, grapes & yogurt dressing', price:7000, cat:'bowls', img:'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=500&q=80', popular:false },
+  { id:4, name:'Protein Power Bowl', desc:'Double egg, beef, avocado, greens, nuts & lemon dressing', price:9500, cat:'bowls', img:'https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=500&q=80', popular:true },
+  { id:5, name:'The Bunz Sub', desc:'Toasted sub roll, beef strips, melted cheddar, jalapeños & special sauce', price:7500, cat:'sandwiches', img:'https://images.unsplash.com/photo-1509722747041-616f39b57569?w=500&q=80', popular:true },
+  { id:6, name:'Ham & Cheese Melt', desc:'Sliced ham, cheddar, mustard on freshly baked sub bread', price:6500, cat:'sandwiches', img:'https://images.unsplash.com/photo-1553909489-cd47e0907980?w=500&q=80', popular:false },
+  { id:7, name:'Beef & Cheddar Sub', desc:'Tender beef, shredded cheddar, red onion, pickles, toasted bun', price:8000, cat:'sandwiches', img:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=500&q=80', popular:true },
+  { id:8, name:'Classic Smash Burger', desc:'Double smash patty, cheddar, lettuce, tomato & special Bunz sauce', price:8500, cat:'burgers', img:'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&q=80', popular:true },
+  { id:9, name:'Spicy Bunz Burger', desc:'Beef patty, pepper jack, jalapeños, sriracha mayo & crispy onions', price:9000, cat:'burgers', img:'https://images.unsplash.com/photo-1550547660-d9450f859349?w=500&q=80', popular:true },
+  { id:10, name:'BBQ Bacon Burger', desc:'Smoky BBQ sauce, crispy bacon, caramelised onions & cheddar', price:10000, cat:'burgers', img:'https://images.unsplash.com/photo-1586816001966-79b736744398?w=500&q=80', popular:false },
+  { id:11, name:'Bunz Mojito', desc:'Refreshing house mojito in a mason jar — our signature drink', price:3500, cat:'drinks', img:'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&q=80', popular:true },
+  { id:12, name:'Fresh Orange Juice', desc:'Cold-pressed oranges, served in our iconic mason jar with straw', price:2500, cat:'drinks', img:'https://images.unsplash.com/photo-1534353341086-90f33be6f80e?w=500&q=80', popular:true },
+  { id:13, name:'Passion Fruit Juice', desc:'Tropical fresh passion fruit, chilled & served in a mason jar', price:2500, cat:'drinks', img:'https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=500&q=80', popular:false },
+  { id:14, name:'Bunz Iced Coffee', desc:'Signature iced coffee with swirled caramel in a mason jar', price:3000, cat:'coffee', img:'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=500&q=80', popular:true },
+  { id:15, name:'Caramel Latte', desc:'Smooth espresso, steamed milk & house caramel drizzle', price:2800, cat:'coffee', img:'https://images.unsplash.com/photo-1485808191679-5f86510bd652?w=500&q=80', popular:false },
+];
+
+let cart = {};
+let currentFilter = 'all';
+
+function renderMenuGrid(items, targetId) {
+  const grid = document.getElementById(targetId);
+  if (!grid) return;
+  grid.innerHTML = items.map(item => `
+    <div class="menu-card">
+      <div class="menu-card-img-wrap">
+        <img src="${item.img}" alt="${item.name}" loading="lazy"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="menu-card-img-fallback" style="display:none">🍽️</div>
+      </div>
+      <div class="menu-card-body">
+        <h3>${item.name}</h3>
+        <p>${item.desc}</p>
+        <div class="menu-card-footer">
+          <span class="price">FRW ${item.price.toLocaleString()}</span>
+          <button class="btn-add" onclick="addToCart(${item.id})" title="Add to cart">+</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterMenu(cat, btn) {
+  currentFilter = cat;
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const filtered = cat === 'all' ? MENU : MENU.filter(i => i.cat === cat);
+  renderMenuGrid(filtered, 'menuGrid');
+}
+
+function addToCart(id) {
+  cart[id] = (cart[id] || 0) + 1;
+  updateCart();
+  showToast('Added to cart! 🎉');
+}
+
+function changeQty(id, delta) {
+  cart[id] = (cart[id] || 0) + delta;
+  if (cart[id] <= 0) delete cart[id];
+  updateCart();
+}
+
+function updateCart() {
+  const total = Object.entries(cart).reduce((sum, [id, qty]) => {
+    const item = MENU.find(i => i.id == id);
+    return sum + (item ? item.price * qty : 0);
+  }, 0);
+
+  const count = Object.values(cart).reduce((a, b) => a + b, 0);
+  const badge = document.getElementById('cartBadge');
+  badge.style.display = count > 0 ? 'flex' : 'none';
+  badge.textContent = count;
+
+  const itemsEl = document.getElementById('cartItems');
+  const footerEl = document.getElementById('cartFooter');
+
+  if (count === 0) {
+    itemsEl.innerHTML = '<p class="cart-empty">Your cart is empty.<br>Add some items to get started!</p>';
+    footerEl.style.display = 'none';
+    return;
+  }
+
+  footerEl.style.display = 'block';
+  document.getElementById('cartTotal').textContent = 'FRW ' + total.toLocaleString();
+
+  itemsEl.innerHTML = Object.entries(cart).map(([id, qty]) => {
+    const item = MENU.find(i => i.id == id);
+    if (!item) return '';
+    return `
+      <div class="cart-item">
+        <span class="cart-item-emoji">🍽️</span>
+        <div class="cart-item-info">
+          <h4>${item.name}</h4>
+          <span>FRW ${(item.price * qty).toLocaleString()}</span>
+        </div>
+        <div class="cart-item-qty">
+          <button class="qty-btn" onclick="changeQty(${id}, -1)">−</button>
+          <span class="qty-num">${qty}</span>
+          <button class="qty-btn" onclick="changeQty(${id}, 1)">+</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function toggleCart() {
+  const overlay = document.getElementById('cartOverlay');
+  const sidebar = document.getElementById('cartSidebar');
+  overlay.classList.toggle('open');
+  sidebar.classList.toggle('open');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+function checkout() {
+  cart = {};
+  updateCart();
+  toggleCart();
+  showToast('Order placed! Thank you 🎉');
+}
+
+function submitBooking(e) {
+  e.preventDefault();
+  showToast('Reservation confirmed! See you soon 🍽️');
+  e.target.reset();
+}
+
+function showPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  const map = { home: 0, menu: 1, about: 2, book: 3 };
+  const links = document.querySelectorAll('.nav-links a');
+  if (links[map[page]]) links[map[page]].classList.add('active');
+  window.scrollTo(0, 0);
+  if (page === 'menu') renderMenuGrid(MENU, 'menuGrid');
+}
+
+function toggleMobileNav() {
+  document.getElementById('mobileNav').classList.toggle('open');
+}
+
+// Init
+renderMenuGrid(MENU.filter(i => i.popular), 'homeMenuGrid');
+renderMenuGrid(MENU, 'menuGrid');
+</script>
+</body>
+</html>
